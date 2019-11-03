@@ -18,8 +18,8 @@ void printLcd(LiquidCrystal_I2C lcd, String str, int pos)
     }
     if (pos == 0 && str.length() > LCD_CHAR)
     {
-        printLcd(lcd, str.substring(0, LCD_CHAR), pos++);
-        printLcd(lcd, str.substring(LCD_CHAR, LCD_CHAR + LCD_CHAR), pos++);
+        printLcd(lcd, str.substring(0, LCD_CHAR), 0);
+        printLcd(lcd, str.substring(LCD_CHAR, LCD_CHAR + LCD_CHAR), 1);
         return;
     }
 
