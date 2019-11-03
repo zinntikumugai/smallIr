@@ -37,9 +37,12 @@ void setup()
     buttonR = BUTTON(BUTTON_R_PIN, INPUT_PULLUP);
     buttonL = BUTTON(BUTTON_L_PIN, INPUT_PULLUP);
     buttonE = BUTTON(BUTTON_ENT_PIN, INPUT_PULLUP);
-    buttonR.setName("R");
-    buttonL.setName("L");
-    buttonE.setName("E");
+    buttonR.setName("1");
+    buttonR.setStrMode(1);
+    buttonL.setName("0");
+    buttonL.setStrMode(1);
+    buttonE.setName("2");
+    buttonE.setStrMode(1);
 
     // led
     pinMode(LED_PIN, OUTPUT);
@@ -58,8 +61,8 @@ void loop()
     buttonL.read();
     buttonE.read();
 
-    printStr += buttonR.toString() + " ";
     printStr += buttonL.toString() + " ";
+    printStr += buttonR.toString() + " ";
     printStr += buttonE.toString();
     printLcd(lcd, printStr, 0);
 
