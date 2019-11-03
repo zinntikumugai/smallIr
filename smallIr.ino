@@ -61,10 +61,8 @@ void loop()
     buttonL.read();
     buttonE.read();
 
-    printStr += buttonR.toString();
-    printStr += " ";
-    printStr += buttonL.toString();
-    printStr += " ";
+    printStr += buttonR.toString() + " ";
+    printStr += buttonL.toString() + " ";
     printStr += buttonE.toString();
     printLcd(lcd, printStr, 0);
 
