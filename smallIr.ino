@@ -1,6 +1,6 @@
 #include <Wire.h>
 #include <DHT.h>
-
+#include <LiquidCrystal_I2C.h>
 #include "button.h"
 #include "lcdDatas.h"
 

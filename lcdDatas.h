@@ -1,4 +1,3 @@
-#include <LiquidCrystal_I2C.h>
 
 class lcdDatas
 {
@@ -9,17 +8,17 @@ private:
     LiquidCrystal_I2C lcd;
 
 public:
-    lcdDatas(int address,int lcdSize, int lcdCol);
+    lcdDatas(int, int, int);
     ~lcdDatas();
-    void append(String str);
+    void append(String);
     void show();
-    void printLcd(LiquidCrystal_I2C lcd, String str, int pos);
+    void printLcd(String, int);
     void show(int);
 };
 
 lcdDatas::lcdDatas(int address, int lcdWith, int lcdHeght)
 {
-    this->lcd = LiquidCrystal_I2C(address,lcdWith,lcdHeght);
+    this->lcd = LiquidCrystal_I2C(address, lcdWith, lcdHeght);
     this->lcd.init();
     this->lcd.backlight();
     this->heght = lcdHeght;
@@ -37,15 +36,15 @@ void lcdDatas::append(String str)
 
 void lcdDatas::show()
 {
-    this->printLcd(this->lcd, this->strs, 0);
+    this->printLcd(this->strs, 0);
 }
 
-void lcdDatas::printLcd(LiquidCrystal_I2C lcd, String str, int pos)
+void lcdDatas::printLcd(String str, int pos)
 {
-    lcd.setCursor(0, pos);
-    lcd.print(str.substring(0, this->with));
+    this->lcd.setCursor(0, pos);
+    this->lcd.print(str.substring(0, this->with));
 }
 void lcdDatas::show(int pos)
 {
-    this->printLcd(this->lcd, this->strs, pos);
+    this->printLcd(this->strs, pos);
 }
