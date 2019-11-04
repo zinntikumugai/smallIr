@@ -1,7 +1,8 @@
 #include <Wire.h>
-#include <LiquidCrystal_I2C.h>
 #include <DHT.h>
+
 #include "button.h"
+#include "lcdDatas.h"
 
 #define LCD_LINE 2
 #define LCD_CHAR 16
@@ -12,25 +13,8 @@
 #define BUTTON_ENT_PIN 4
 #define LED_PIN 13
 #define DHT_PIN 7
-LiquidCrystal_I2C lcd(0x27, LCD_CHAR, LCD_LINE);
+lcdDatas lcdD(0x27, LCD_CHAR,LCD_LINE);
 DHT dht(DHT_PIN, DHT11);
-
-void printLcd(LiquidCrystal_I2C lcd, String str, int pos)
-{
-    if (pos > LCD_LINE)
-    {
-        pos = 0;
-    }
-    if (pos == 0 && str.length() > LCD_CHAR)
-    {
-        printLcd(lcd, str.substring(0, LCD_CHAR), 0);
-        printLcd(lcd, str.substring(LCD_CHAR, LCD_CHAR + LCD_CHAR), 1);
-        return;
-    }
-
-    lcd.setCursor(0, pos);
-    lcd.print(str);
-}
 
 BUTTON buttons[BUTTON_LEN];
 
@@ -51,8 +35,6 @@ void setup()
     dht.begin();
 
     // lcd
-    lcd.init();
-    lcd.backlight();
 }
 
 int masterMode = 0;
@@ -74,7 +56,8 @@ void loop()
     {
         printStr += buttons[i].toString() + " ";
     }
-    printLcd(lcd, printStr, lcdPos++);
+    lcdD.append(printStr);
+    // lcdD.printLcd(lcd, printStr, lcdPos++);
 
     float pH = dht.readHumidity();
     float tp = dht.readTemperature();
@@ -85,7 +68,10 @@ void loop()
     printStr += "C H:";
     printStr += String(pH, 1);
     printStr += "%";
-    printLcd(lcd, printStr, lcdPos);
+    
+    lcdD.append(printStr);
+    // lcdD.printLcd(lcd, printStr, lcdPos);
+    lcdD.show();
 
     delay(100);
 }
