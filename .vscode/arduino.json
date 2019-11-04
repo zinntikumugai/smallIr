@@ -2,6 +2,6 @@
     "programmer": "AVRISP mkII",
     "board": "arduino:avr:nano",
     "configuration": "cpu=atmega328old",
-    "port": "COM8",
+    "port": "COM6",
     "sketch": "smallIr.ino"
 }

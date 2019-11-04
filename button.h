@@ -12,6 +12,7 @@ public:
     BUTTON(int pin);
     BUTTON();
     boolean read();
+    boolean getStatus();
     void setName(String);
     void setStrMode(int);
     String toString();
@@ -41,12 +42,18 @@ boolean BUTTON::read()
     return status;
 }
 
+boolean BUTTON::getStatus()
+{
+    return this->status;
+}
+
 void BUTTON::setName(String name)
 {
     this->name = name;
 }
 
-void BUTTON::setStrMode(int mode) {
+void BUTTON::setStrMode(int mode)
+{
     this->strMode = mode;
 }
 
@@ -58,10 +65,12 @@ String BUTTON::toString()
         str += this->name;
         str += ":";
     }
-    if (        this->strMode == 0)
+    if (this->strMode == 0)
     {
         str += this->status ? "true " : "false";
-    }else {
+    }
+    else
+    {
         str += this->status ? "1" : "0";
     }
 

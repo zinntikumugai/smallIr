@@ -5,6 +5,8 @@
 
 #define LCD_LINE 2
 #define LCD_CHAR 16
+#define BUTTON_LEN 3
+#define BUTTON_BEGIN 2
 #define BUTTON_L_PIN 2
 #define BUTTON_R_PIN 3
 #define BUTTON_ENT_PIN 4
@@ -30,22 +32,17 @@ void printLcd(LiquidCrystal_I2C lcd, String str, int pos)
     lcd.print(str);
 }
 
-BUTTON buttonR;
-BUTTON buttonL;
-BUTTON buttonE;
+BUTTON buttons[BUTTON_LEN];
 
 void setup()
 {
     // button
-    buttonR = BUTTON(BUTTON_R_PIN, INPUT_PULLUP);
-    buttonL = BUTTON(BUTTON_L_PIN, INPUT_PULLUP);
-    buttonE = BUTTON(BUTTON_ENT_PIN, INPUT_PULLUP);
-    buttonR.setName("1");
-    buttonR.setStrMode(1);
-    buttonL.setName("0");
-    buttonL.setStrMode(1);
-    buttonE.setName("2");
-    buttonE.setStrMode(1);
+    for (int i = 0; i < BUTTON_LEN; i++)
+    {
+        buttons[i] = BUTTON(BUTTON_BEGIN + i, INPUT_PULLUP);
+        buttons[i].setName(String(i));
+        buttons[i].setStrMode(1);
+    }
 
     // led
     pinMode(LED_PIN, OUTPUT);
@@ -58,17 +55,25 @@ void setup()
     lcd.backlight();
 }
 
+int masterMode = 0;
+int subMode = 0;
+bool isRun = false;
+
 void loop()
 {
     String printStr = "";
     int lcdPos = 0;
-    buttonR.read();
-    buttonL.read();
-    buttonE.read();
+    boolean buttonStatuss[BUTTON_LEN];
 
-    printStr += buttonL.toString() + " ";
-    printStr += buttonR.toString() + " ";
-    printStr += buttonE.toString();
+    for (int i = 0; i < BUTTON_LEN; i++)
+    {
+        buttonStatuss[i] = buttons[i].read();
+    }
+
+    for (int i = 0; i < BUTTON_LEN; i++)
+    {
+        printStr += buttons[i].toString() + " ";
+    }
     printLcd(lcd, printStr, lcdPos++);
 
     float pH = dht.readHumidity();
