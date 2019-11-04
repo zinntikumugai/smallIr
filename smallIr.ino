@@ -1,6 +1,5 @@
 #include <Wire.h>
 #include <DHT.h>
-#include <LiquidCrystal_I2C.h>
 #include "button.h"
 #include "lcdDatas.h"
 
@@ -8,12 +7,10 @@
 #define LCD_CHAR 16
 #define BUTTON_LEN 3
 #define BUTTON_BEGIN 2
-#define BUTTON_L_PIN 2
-#define BUTTON_R_PIN 3
-#define BUTTON_ENT_PIN 4
 #define LED_PIN 13
 #define DHT_PIN 7
-lcdDatas lcdD(0x27, LCD_CHAR,LCD_LINE);
+LiquidCrystal_I2C lcd(0x27, LCD_CHAR, LCD_LINE);
+lcdDatas lcdD = lcdDatas(0x27, LCD_CHAR, LCD_LINE);
 DHT dht(DHT_PIN, DHT11);
 
 BUTTON buttons[BUTTON_LEN];
@@ -35,11 +32,13 @@ void setup()
     dht.begin();
 
     // lcd
+    lcd.init();
+    lcd.backlight();
 }
 
 int masterMode = 0;
 int subMode = 0;
-bool isRun = false;
+boolean isRun = false;
 
 void loop()
 {
@@ -57,6 +56,7 @@ void loop()
         printStr += buttons[i].toString() + " ";
     }
     lcdD.append(printStr);
+    lcdD.append("\n");
     // lcdD.printLcd(lcd, printStr, lcdPos++);
 
     float pH = dht.readHumidity();
@@ -71,7 +71,7 @@ void loop()
     
     lcdD.append(printStr);
     // lcdD.printLcd(lcd, printStr, lcdPos);
-    lcdD.show();
+    lcdD.show(lcd);
 
     delay(100);
 }

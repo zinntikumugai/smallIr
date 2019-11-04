@@ -1,26 +1,22 @@
 
+#include <LiquidCrystal_I2C.h>
 class lcdDatas
 {
 private:
     int with;
     int heght;
     String strs;
-    LiquidCrystal_I2C lcd;
 
 public:
     lcdDatas(int, int, int);
     ~lcdDatas();
     void append(String);
-    void show();
-    void printLcd(String, int);
-    void show(int);
+    void show(LiquidCrystal_I2C);
+    void printLcd(LiquidCrystal_I2C, String, int);
 };
 
 lcdDatas::lcdDatas(int address, int lcdWith, int lcdHeght)
 {
-    this->lcd = LiquidCrystal_I2C(address, lcdWith, lcdHeght);
-    this->lcd.init();
-    this->lcd.backlight();
     this->heght = lcdHeght;
     this->with = lcdWith;
 }
@@ -31,20 +27,43 @@ lcdDatas::~lcdDatas()
 
 void lcdDatas::append(String str)
 {
-    this->strs += str;
+    if (str.equals("\n"))
+    {
+        int max = this->strs.length();
+        for (; max > this->with; max -= this->with)
+            ;
+        max = this->with - this->strs.length();
+        for (int i = 0; i < max; i++)
+        {
+            this->strs += " ";
+        }
+    }
+    else
+    {
+        this->strs += str;
+    }
 }
 
-void lcdDatas::show()
+void lcdDatas::show(LiquidCrystal_I2C lcd)
 {
-    this->printLcd(this->strs, 0);
+    if (this->strs.length() > this->with)
+    {
+        int i = 0;
+        for (int i = 0; i < this->heght; i++)
+        {
+            String str = this->strs.substring(i * this->with, (i + 1) * this->with);
+            this->printLcd(lcd, str, i);
+        }
+    }
+    else
+    {
+        this->printLcd(lcd, this->strs, 0);
+    }
+    this->strs = "";
 }
 
-void lcdDatas::printLcd(String str, int pos)
+void lcdDatas::printLcd(LiquidCrystal_I2C lcd, String str, int pos)
 {
-    this->lcd.setCursor(0, pos);
-    this->lcd.print(str.substring(0, this->with));
-}
-void lcdDatas::show(int pos)
-{
-    this->printLcd(this->strs, pos);
+    lcd.setCursor(0, pos);
+    lcd.print(str.substring(0, this->with));
 }
