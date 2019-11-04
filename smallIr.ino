@@ -57,7 +57,6 @@ void loop()
     }
     lcdD.append(printStr);
     lcdD.append("\n");
-    // lcdD.printLcd(lcd, printStr, lcdPos++);
 
     float pH = dht.readHumidity();
     float tp = dht.readTemperature();
@@ -70,7 +69,6 @@ void loop()
     printStr += "%";
     
     lcdD.append(printStr);
-    // lcdD.printLcd(lcd, printStr, lcdPos);
     lcdD.show(lcd);
 
     delay(100);
