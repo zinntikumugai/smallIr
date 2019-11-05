@@ -68,6 +68,7 @@ void loop()
     printStr += String(pH, 1);
     printStr += "%";
     
+    lcdD.clear();
     lcdD.append(printStr);
     lcdD.show(lcd);
 

@@ -12,6 +12,7 @@ public:
     ~lcdDatas();
     void append(String);
     void show(LiquidCrystal_I2C);
+    void clear();
     void printLcd(LiquidCrystal_I2C, String, int);
 };
 
@@ -42,6 +43,10 @@ void lcdDatas::append(String str)
     {
         this->strs += str;
     }
+}
+
+void lcdDatas::clear() {
+    this->strs = "";
 }
 
 void lcdDatas::show(LiquidCrystal_I2C lcd)
