@@ -60,9 +60,14 @@ void loop()
         if ((buttonStatuss[i]) == HIGH && oldStatus == LOW)
             buttonCounters[i]++;
     }
+    if(buttonCounters[2] > 0) {
+        for(int i=0; i<BUTTON_LEN; i++) {
+            buttonCounters[i] = 0;
+        }
+    }
 
     // button status
-    for (int i = 0; i < BUTTON_LEN; i++)
+    for (int i = 0; i < BUTTON_LEN-1; i++)
     {
         printStr += buttons[i].toString() + " ";
         printStr += buttonCounters[i];
@@ -71,16 +76,16 @@ void loop()
     lcdD.append(printStr);
     lcdD.append("\n");
 
-    // float pH = dht.readHumidity();
-    // float tp = dht.readTemperature();
+    float pH = dht.readHumidity();
+    float tp = dht.readTemperature();
 
-    // printStr = "";
-    // printStr += "T:";
-    // printStr += String(tp, 1);
-    // printStr += "C H:";
-    // printStr += String(pH, 1);
-    // printStr += "%";
+    printStr = "";
+    printStr += "T:";
+    printStr += String(tp, 1);
+    printStr += "C H:";
+    printStr += String(pH, 1);
+    printStr += "%";
 
-    // lcdD.append(printStr);
+    lcdD.append(printStr);
     lcdD.show(lcd);
 }
